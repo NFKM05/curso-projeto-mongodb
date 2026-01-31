@@ -1,8 +1,11 @@
 package com.nicolas.workshopmongo.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 //corresponde a uma coleçao do mongodb
@@ -15,6 +18,10 @@ public class User implements Serializable {
     private String id;
     private String name;
     private String email;
+
+    //DBRef cria relacionamentos entre documentos em coleçoes diferentes, parecido com FKs
+    @DBRef(lazy=true) //lazy = true significa que os posts so vao ser acessados se especificamente carrega los, evitando sobrecarga na rede
+    private List<Post> post = new ArrayList<>();
 
     public User(){
 
@@ -48,6 +55,10 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Post> getPost() {
+        return post;
     }
 
     @Override
